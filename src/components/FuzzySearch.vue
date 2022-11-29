@@ -1,3 +1,4 @@
+
 <template>
 
     <div class="fuzzySearch">
@@ -20,19 +21,19 @@
                     <!-- <div style="background:white url('https://i.dummyjson.com/data/products/7/3.jpg');background-size: cover;"
                         class="thumbnail">
                     </div> -->
-                    <div class="thumbnail" :style='{ backgroundImage: `url(${product.images.pop()})` }'>
+                    <div class="thumbnail" :style='{ backgroundImage: `url(${product["images"].pop()})` }'>
                     </div>
 
                     <div class="name">
 
-                        <div class="title">{{ product.title }}</div>
-                        <div class="brand">{{ product.brand }}</div>
+                        <div class="title">{{ product['title'] }}</div>
+                        <div class="brand">{{ product['brand'] }}</div>
                     </div>
                 </div>
                 <div class="right">
-                    <div class="price">${{ product.price }}</div>
+                    <div class="price">${{ product['price'] }}</div>
                     <div class="rating">
-                        <div class="star" v-for="n in Math.round(product.rating)"> <img
+                        <div class="star" v-for="n in Math.round(product['rating'])"> <img
                                 src="../assets/images/ratingStar.svg" /></div>
                     </div>
                 </div>
@@ -229,7 +230,17 @@ export default defineComponent({
             }
         },
         searchResultsCount() {
-            this.searchResultsCount > 0 ? gsap.set(`.resultsList .label`, { autoAlpha: 0, fontSize: '0em' }) & this.hideMicroloader() : gsap.set(`.resultsList .label`, { autoAlpha: 1, fontSize: `initial` }) & this.hideMicroloader()
+
+            if (this.searchResultsCount > 0) {
+                gsap.set(`.resultsList .label`, { autoAlpha: 0, fontSize: '0em' });
+
+                this.hideMicroloader()
+            }
+            else {
+                gsap.set(`.resultsList .label`, { autoAlpha: 1, fontSize: `initial` })
+                this.hideMicroloader()
+            }
+
         }
     },
     setup() {
