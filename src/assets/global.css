@@ -1,0 +1,16 @@
+*::selection {
+  background-color: #6366f1;
+  color: white;
+}
+body {
+  background: url("./images/heroPattern.svg");
+  font-family: "bodyRegular";
+}
+input,
+textarea {
+  font-family: "bodyRegular";
+}
+h1,
+h2 {
+  font-family: "title";
+}
