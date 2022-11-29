@@ -99,6 +99,7 @@ export default defineComponent({
         }
         ,
         parseSearchResults(results) {
+         
             console.log(`Received search results as ${typeof (results)}`)
             results = results.products;
             this.searchResults = results;
@@ -108,7 +109,6 @@ export default defineComponent({
             console.log(`Returned ${this.searchResultsCount} results`)
             this.showSearchResults()
             results.forEach(result => {
-
                 console.log(`Received result as ${result.title}`);
                 let resultThumbail = result.images.pop();
                 console.log(`Got thumbnail link as ${resultThumbail}`);
@@ -208,6 +208,7 @@ export default defineComponent({
     watch: {
         // Whenever the fuzzySearch input changes, this will run
         searchQuery(newQuery) {
+            this.hideSearchResults();
             this.showMicroloader()
             gsap.to(`.clear`, {
                 duration: 0.08,
@@ -217,7 +218,7 @@ export default defineComponent({
             setTimeout(() => {
                 if (newQuery.length > 0) {
                     this.queryProducts(newQuery)
-                    this.showSearchResults()
+                   
                 }
 
                 //Hides the clear search query button if the user removes all characters from the search
