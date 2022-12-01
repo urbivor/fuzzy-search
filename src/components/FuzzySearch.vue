@@ -1,6 +1,5 @@
 
 <template>
-
     <div class="fuzzySearch">
         <h2 class="fuzzySearchStateLabel">
             <div class="decoration"></div>
@@ -10,23 +9,14 @@
         <div class="icon">
             <img src="../assets/images/search.svg" alt="">
         </div>
-
         <div class="resultsList">
-
             <div class="label">Nothing matched your search</div>
             <div class="errorLabel">Sorry, something went wrong. <br /> Please check your connection & try again.</div>
-
             <div class="result" @click="this.viewProduct(product)" v-for="(product) in searchResults">
-
                 <div class="left">
-                    <!-- <div style="background:white url('https://i.dummyjson.com/data/products/7/3.jpg');background-size: cover;"
-                        class="thumbnail">
-                    </div> -->
                     <div class="thumbnail" :style='{ backgroundImage: `url(${product["images"].pop()})` }'>
                     </div>
-
                     <div class="name">
-
                         <div class="title">{{ product['title'] }}</div>
                         <div class="brand">{{ product['brand'] }}</div>
                     </div>
@@ -38,7 +28,6 @@
                                 src="../assets/images/ratingStar.svg" /></div>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -51,7 +40,6 @@
             <div class="selectedProductIndicator">
                 <div class="brand">{{ selectedProductBrand }}</div>
                 <div class="title">{{ selectedProductTitle }}</div>
-
             </div>
         </div>
 
@@ -112,37 +100,30 @@ export default defineComponent({
         }
         ,
         showClearButton() {
-
             gsap.to((`.clear`), {
                 autoAlpha: 1,
                 scale: 1,
             })
         },
         showSearchResults() {
-
             gsap.to(`.resultsList`, {
                 autoAlpha: 1
             })
         }
         ,
         hideSearchResults() {
-
             gsap.to(`.resultsList`, {
-
                 autoAlpha: 0
             })
         }
         ,
         hideClearButton() {
-
             gsap.to(`.clear`, {
                 autoAlpha: 0,
                 scale: 0.89,
             })
         },
         clearSearchQuery() {
-
-            // this.searchQuery = ``
             gsap.to(`.microloader`, {
                 autoAlpha: 0
             })
@@ -176,7 +157,6 @@ export default defineComponent({
             })
         },
         countSearchResults() {
-
         }
     },
     data() {
@@ -203,11 +183,8 @@ export default defineComponent({
             setTimeout(() => {
                 if (newQuery.length > 0) {
                     this.queryProducts(newQuery)
-
                 }
-
                 //Hides the clear search query button if the user removes all characters from the search
-
             }, 1555);
             if (newQuery.length == 0) {
                 this.hideClearButton()
@@ -216,7 +193,6 @@ export default defineComponent({
             }
         },
         searchResultsCount() {
-
             if (this.searchResultsCount > 0) {
                 gsap.set(`.resultsList .label`, { autoAlpha: 0, fontSize: '0em' });
 
@@ -230,14 +206,11 @@ export default defineComponent({
         }
     },
     setup() {
-
-
         onMounted(async () => {
             console.log(`Now DOM elements are ready...`);
         })
     }
 })
-
 </script>
 
 <style scoped>
@@ -443,8 +416,6 @@ export default defineComponent({
     justify-content: flex-end;
 
 }
-
-.fuzzySearch .resultsList .result .rating .star {}
 
 .fuzzySearch .resultsList .result .rating .star img {
     width: 8px;
