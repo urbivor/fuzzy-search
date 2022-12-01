@@ -72,6 +72,8 @@ export default defineComponent({
                     console.error('Error querying products:', error);
                     this.hideMicroloader()
                     gsap.set(`.resultsList .errorLabel`, { autoAlpha: 1, fontSize: 'initial' });
+
+                    this.searchResults = []
                     this.showSearchResults()
                 })
         },
