@@ -1,4 +1,3 @@
-
 <template>
     <div class="fuzzySearch">
         <h2 class="fuzzySearchStateLabel">
@@ -30,24 +29,20 @@
                 </div>
             </div>
         </div>
-
         <input v-model="searchQuery" placeholder="Search products..." type="text" id="productFuzzySearchInput">
         <div class="microloader">
             <div></div>
         </div>
-
         <div class="selectedProductIndicator">
             <div class="selectedProductIndicator">
                 <div class="brand">{{ selectedProductBrand }}</div>
                 <div class="title">{{ selectedProductTitle }}</div>
             </div>
         </div>
-
         <div @click="clearSearchQuery()" class="clear">
             <img src="../assets/images/clearSearchIcon.svg" />
         </div>
     </div>
-
 </template>
 
 <script lang="ts">
@@ -64,7 +59,6 @@ export default defineComponent({
     },
     methods: {
         queryProducts(queryString) {
-
             fetch(`https://dummyjson.com/products/search?q=${queryString}`)
                 .then(response => response.json())
                 .then(data => this.parseSearchResults(data))
@@ -72,14 +66,11 @@ export default defineComponent({
                     console.error('Error querying products:', error);
                     this.hideMicroloader()
                     gsap.set(`.resultsList .errorLabel`, { autoAlpha: 1, fontSize: 'initial' });
-
                     this.searchResults = []
                     this.showSearchResults()
                 })
         },
-
         viewProduct(product) {
-
             this.selectedProductBrand = product.brand
             this.selectedProductTitle = product.title
             this.showClearButton();
@@ -96,7 +87,6 @@ export default defineComponent({
             this.searchResults = results;
             this.searchResultsCount = results.length;
             this.showSearchResults();
-
             gsap.set(`.resultsList .errorLabel`, { autoAlpha: 0, fontSize: `0em` })
             this.hideMicroloader()
         }
@@ -150,7 +140,6 @@ export default defineComponent({
             })
         },
         hideMicroloader() {
-
             gsap.to(`.microloader`, {
                 autoAlpha: 0,
                 onComplete: function () {
@@ -171,7 +160,6 @@ export default defineComponent({
             selectedProductBrand: ''
         }
     },
-
     watch: {
         // Whenever the fuzzySearch input changes, this will run
         searchQuery(newQuery) {
@@ -204,7 +192,6 @@ export default defineComponent({
                 gsap.set(`.resultsList .label`, { autoAlpha: 1, fontSize: `initial` })
                 this.hideMicroloader()
             }
-
         }
     },
     setup() {
