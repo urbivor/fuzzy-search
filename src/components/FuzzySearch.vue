@@ -14,6 +14,7 @@
         <div class="resultsList">
 
             <div class="label">Nothing matched your search</div>
+            <div class="errorLabel">Sorry, something went wrong. <br /> Please check your connection & try again.</div>
 
             <div class="result" @click="this.viewProduct(product)" v-for="(product) in searchResults">
 
@@ -75,13 +76,15 @@ export default defineComponent({
     },
     methods: {
         queryProducts(queryString) {
-            console.log(`Ready to search for ${queryString}`)
+
             fetch(`https://dummyjson.com/products/search?q=${queryString}`)
                 .then(response => response.json())
                 .then(data => this.parseSearchResults(data))
                 .catch(error => {
-                    console.log('Error querying products:', error);
+                    console.error('Error querying products:', error);
                     this.hideMicroloader()
+                    gsap.set(`.resultsList .errorLabel`, { autoAlpha: 1, fontSize: 'initial' });
+                    this.showSearchResults()
                 })
         },
 
@@ -99,47 +102,31 @@ export default defineComponent({
         }
         ,
         parseSearchResults(results) {
-         
-            console.log(`Received search results as ${typeof (results)}`)
             results = results.products;
             this.searchResults = results;
             this.searchResultsCount = results.length;
+            this.showSearchResults();
 
-            console.log(results)
-            console.log(`Returned ${this.searchResultsCount} results`)
-            this.showSearchResults()
-            results.forEach(result => {
-                console.log(`Received result as ${result.title}`);
-                let resultThumbail = result.images.pop();
-                console.log(`Got thumbnail link as ${resultThumbail}`);
-                // document.querySelector(`.resultsList`)?.insertAdjacentHTML(`afterbegin`, `
-                // <div onclick="clearSearchQuery()" class="result">
-                // <div style="font-family:'title'">${result.title}</div>   
-                // <div v-html="${result.brand}"" class="brand">${result.brand}</div>    
-                // <div class="brand">${result.rating}</div>    
-                // <div class="brand">$${result.price}</div>    
-                // </div>
-                // `)
-
-            });
+            gsap.set(`.resultsList .errorLabel`, { autoAlpha: 0, fontSize: `0em` })
+            this.hideMicroloader()
         }
         ,
         showClearButton() {
-            console.log(`Showing the clear search query button`)
+
             gsap.to((`.clear`), {
                 autoAlpha: 1,
                 scale: 1,
             })
         },
         showSearchResults() {
-            console.log(`Showing search results...`);
+
             gsap.to(`.resultsList`, {
                 autoAlpha: 1
             })
         }
         ,
         hideSearchResults() {
-            console.log(`Hiding search results...`)
+
             gsap.to(`.resultsList`, {
 
                 autoAlpha: 0
@@ -147,14 +134,14 @@ export default defineComponent({
         }
         ,
         hideClearButton() {
-            console.log(`Hiding the clear search query button`)
+
             gsap.to(`.clear`, {
                 autoAlpha: 0,
                 scale: 0.89,
             })
         },
         clearSearchQuery() {
-            console.log(`Clearing search query...`)
+
             // this.searchQuery = ``
             gsap.to(`.microloader`, {
                 autoAlpha: 0
@@ -170,8 +157,6 @@ export default defineComponent({
             { { this.selectedProductTitle = '' } }
         },
         showMicroloader() {
-            console.log(`Showing microloader`);
-
             gsap.to(`.microloader`, {
                 rotation: `+=360`,
                 repeat: -1,
@@ -182,7 +167,7 @@ export default defineComponent({
             })
         },
         hideMicroloader() {
-            console.log(`Hiding microloader`)
+
             gsap.to(`.microloader`, {
                 autoAlpha: 0,
                 onComplete: function () {
@@ -191,7 +176,7 @@ export default defineComponent({
             })
         },
         countSearchResults() {
-            console.log(`Counting search results...`)
+
         }
     },
     data() {
@@ -218,7 +203,7 @@ export default defineComponent({
             setTimeout(() => {
                 if (newQuery.length > 0) {
                     this.queryProducts(newQuery)
-                   
+
                 }
 
                 //Hides the clear search query button if the user removes all characters from the search
@@ -360,6 +345,16 @@ export default defineComponent({
     padding: 8px;
     margin: 8px 0px 0px 0px;
     position: absolute;
+}
+
+.fuzzySearch .resultsList .errorLabel {
+    border-radius: 13px;
+    background: white;
+    box-shadow: 0px 1px 13px rgb(0 0 0 / 21%);
+    padding: 8px;
+    margin: 8px 0px 0px 0px;
+    position: absolute;
+    visibility: hidden;
 }
 
 .fuzzySearch .resultsList .result {
